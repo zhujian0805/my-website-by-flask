@@ -38,4 +38,3 @@ class Tests(db.Model):
 
     def __repr__(self):
         return '<Tests %r>' % (self.title)
-
