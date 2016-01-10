@@ -1,7 +1,7 @@
 #!/usr/bin/python
+import sys
 
-from app import db
-
+sys.path.append('/home/jzhu/my-website-by-flask/flaskr')
 from app import db
 
 class User(db.Model):
