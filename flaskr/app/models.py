@@ -1,7 +1,3 @@
-#!/usr/bin/python
-import sys
-
-sys.path.append('/home/jzhu/my-website-by-flask/flaskr')
 from app import db
 
 class User(db.Model):
@@ -21,20 +17,3 @@ class Post(db.Model):
 
     def __repr__(self):
         return '<Post %r>' % (self.body)
-
-
-class Entries(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    title = db.Column(db.String(64), index = True, unique = True)
-    text = db.Column(db.String(20000))
-
-    def __repr__(self):
-        return '<Entries %r>' % (self.title)
-
-class Tests(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    title = db.Column(db.String(64), index = True, unique = True)
-    text = db.Column(db.String(20000))
-
-    def __repr__(self):
-        return '<Tests %r>' % (self.title)

@@ -1,27 +1,13 @@
-#!/usr/bin/python
-
-# -*- coding: utf-8 -*-
-"""
-    Flaskr
-    ~~~~~~
-
-    A microblog example application written as Flask tutorial with
-    Flask and sqlite3.
-
-    :copyright: (c) 2015 by Armin Ronacher.
-    :license: BSD, see LICENSE for more details.
-"""
-
+import sys
+sys.path.append("/home/jzhu/my-website-by-flask/flaskr")
+from flask import render_template
+from app import app
 import os
 import MySQLdb
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
-
-#from app import models, db
-
-
-# create our little application :)
-app = Flask(__name__)
+from app import models, db
+import os
 
 # Load default config and override config from an environment variable
 app.config.update(dict(
@@ -33,69 +19,24 @@ app.config.update(dict(
 ))
 app.config.from_envvar('FLASKR_SETTINGS', silent=True)
 
-
-def connect_db():
-    """Connects to the specific database."""
-    rv= MySQLdb.connect("localhost","root","123456","test")
-    return rv
-
-
-def init_db():
-    """Initializes the database."""
-    db = get_db()
-    sql = 'CREATE TABLE entries(  id INT PRIMARY KEY AUTO_INCREMENT,  title VARCHAR(100) NOT NULL,  text VARCHAR(1000) NOT NULL );'
-    db.cursor().execute(sql)
-    db.commit()
-
-
-#@app.cli.command('initdb')
-def initdb_command():
-    """Creates the database tables."""
-    init_db()
-    print('Initialized the database.')
-
-
-def get_db():
-    """Opens a new database connection if there is none yet for the
-    current application context.
-    """
-    if not hasattr(g, 'mysql_db'):
-        g.mysql_db = connect_db()
-    return g.mysql_db
-
-
-@app.teardown_appcontext
-def close_db(error):
-    """Closes the database again at the end of the request."""
-    if hasattr(g, 'sqlite_db'):
-        g.sqlite_db.close()
-
-
 @app.route('/')
 @app.route('/index')
-def show_entries():
-    db = get_db()
-    cursor = db.cursor()
-    ret = cursor.execute('select title, text from entries')
-    entries = {}
-    if ret:
-        entries = cursor.fetchall()
-        print entries
-
-    return render_template('show_entries.html', entries=entries)
-
-
-@app.route('/add', methods=['POST'])
-def add_entry():
-    if not session.get('logged_in'):
-        abort(401)
-    db = get_db()
-    print [request.form['title'], request.form['text']]
-    db.cursor().execute('insert into entries (title, text) values (%s, %s)', [request.form['title'], request.form['text']])
-    db.commit()
-    flash('New entry was successfully posted')
-    return redirect(url_for('show_entries'))
-
+def index():
+    user = { 'nickname': 'Miguel' } # fake user
+    posts = [ # fake array of posts
+        {
+            'author': { 'nickname': 'John' },
+            'body': 'Beautiful day in Portland!'
+        },
+        {
+            'author': { 'nickname': 'Susan' },
+            'body': 'The Avengers movie was so cool!'
+        }
+    ]
+    return render_template("index.html",
+        title = 'Home',
+        user = user,
+        posts = posts)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -110,13 +51,3 @@ def login():
             flash('You were logged in')
             return redirect(url_for('show_entries'))
     return render_template('login.html', error=error)
-
-
-@app.route('/logout')
-def logout():
-    session.pop('logged_in', None)
-    flash('You were logged out')
-    return redirect(url_for('show_entries'))
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0')
