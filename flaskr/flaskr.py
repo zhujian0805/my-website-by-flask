@@ -17,7 +17,7 @@ import MySQLdb
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
 
-from app import models
+from app import models, db
 
 
 # create our little application :)
