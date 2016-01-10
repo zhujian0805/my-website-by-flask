@@ -9,6 +9,7 @@ class User(db.Model):
     name = db.Column(db.String(120))
     test1 = db.Column(db.String(120))
     test2 = db.Column(db.String(120))
+    test3 = db.Column(db.String(220))
 
     def __repr__(self):
         return '<User %r>' % (self.nickname)
