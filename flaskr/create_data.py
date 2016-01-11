@@ -2,9 +2,9 @@
 
 from app import db, models
 
-#u = models.User(nickname='admin', email='admin@emaisdfl.com')
-#db.session.add(u)
-#db.session.commit()
+u = models.User(nickname='admin', email='admin@emaisdfl.com')
+db.session.add(u)
+db.session.commit()
 
 import datetime
 u = models.User.query.get(7)
