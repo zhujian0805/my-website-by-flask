@@ -7,7 +7,7 @@ class User(db.Model):
     fullname = db.Column(db.String(64))
     email = db.Column(db.String(120), index = True, unique = True)
     posts = db.relationship('Post', backref = 'author', lazy = 'dynamic')
-    about_me = db.Column(db.String(120))
+    about_me = db.Column(db.String(100))
     last_seen = db.Column(db.DateTime)
 
     def avatar(self, size):
