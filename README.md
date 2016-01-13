@@ -8,3 +8,5 @@ http://www.pythondoc.com/flask-mega-tutorial/database.html
 # Based on the following tutorials
 http://www.pythondoc.com/flask-mega-tutorial/index.html
 http://www.pythondoc.com/flask/index.html
+
+2016.1.13: added flask-admin for the admin page support
