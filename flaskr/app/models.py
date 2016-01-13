@@ -1,3 +1,5 @@
+#import sys
+#sys.path.append("/home/jzhu/my-website-by-flask/flaskr")
 from app import db
 from hashlib import md5
 
